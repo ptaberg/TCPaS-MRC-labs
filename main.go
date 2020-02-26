@@ -30,15 +30,6 @@ func (p *Process) appendToState (s State) []State {
 	return p.val;
 }
 
-type filled struct {
-	end int
-}
-
-func (f *filled) canBeFilled(n int) bool {
-	a := n > f.end;
-	return a;
-}
-
 type Algo struct {};
 
 func (a *Algo) FCFS(tasks []Task) {
@@ -50,13 +41,21 @@ func (a *Algo) FCFS(tasks []Task) {
 	// iterate the processes
 	prs := make([]Process, len(tasks));
 	var lastEnd int = 0;
+
+	var length int = tasks[2].start;
+
+	for i := range tasks {
+		length += tasks[i].time;
+	}
+
 	for i := 0; i < len(tasks); i++ {
 		prs[i].id = tasks[i].id;
 		var pEnd int = tasks[i].start + tasks[i].time;
 		var pStart int = tasks[i].start;
 
 		//iterate and fill processes
-		for j := 0; j < 20; j++ {
+
+		for j := 0; j < length; j++ {
 			if i == 0 {
 				if j >= pStart && j <= pEnd {
 					prs[i].appendToState(p)
